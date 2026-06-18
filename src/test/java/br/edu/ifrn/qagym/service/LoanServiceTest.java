@@ -3,12 +3,14 @@ package br.edu.ifrn.qagym.service;
 import br.edu.ifrn.qagym.model.Book;
 import br.edu.ifrn.qagym.model.Loan;
 import br.edu.ifrn.qagym.model.User;
+import br.edu.ifrn.qagym.exception.LoanNotAllowedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class LoanServiceTest {
 
@@ -54,5 +56,16 @@ class LoanServiceTest {
         Loan loan = loanService.borrowBook(book, user, LocalDate.now());
         loanService.returnBook(loan, LocalDate.now());
         assertThat(loanService.getActiveLoans()).isEmpty();
+    }
+
+    @Test
+    void naoDevePermitirEmprestimoDeLivroIndisponivel() {
+
+        book.setAvailable(false);
+
+
+        assertThatThrownBy(() -> loanService.borrowBook(book, user, LocalDate.now()))
+                .isInstanceOf(LoanNotAllowedException.class)
+                .hasMessageContaining("O livro não está disponível para empréstimo.");
     }
 }

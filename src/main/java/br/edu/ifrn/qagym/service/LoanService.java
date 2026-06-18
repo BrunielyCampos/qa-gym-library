@@ -3,6 +3,7 @@ package br.edu.ifrn.qagym.service;
 import br.edu.ifrn.qagym.model.Book;
 import br.edu.ifrn.qagym.model.Loan;
 import br.edu.ifrn.qagym.model.User;
+import br.edu.ifrn.qagym.exception.LoanNotAllowedException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,6 +14,10 @@ public class LoanService {
     private final List<Loan> loans = new ArrayList<>();
 
     public Loan borrowBook(Book book, User user, LocalDate date) {
+        if (!book.isAvailable()) {
+            throw new LoanNotAllowedException("O livro não está disponível para empréstimo.");
+        }
+
         book.setAvailable(false);
         Loan loan = new Loan(book, user, date);
         loans.add(loan);
@@ -39,7 +44,6 @@ public class LoanService {
     }
 
     public List<Loan> getLateLoans(LocalDate currentDate) {
-        // TODO: retornar lista de empréstimos atrasados
         return List.of();
     }
 }
