@@ -16,7 +16,7 @@ Este documento lista as issues disponíveis para implementação. Escolha uma, a
 | 6 | Validar autor vazio no cadastro de livro | `BookValidator` |
 | 7 | Validar nome vazio no cadastro de usuário | `UserValidator` (a criar) |
 | 8 | Implementar método que verifica se um livro é clássico | `Book` |
-| 9 | Implementar listagem de livros por autor | `LibraryService` |
+| 9 | Implementar listagem de livros por autor | `LibraryService` | //concluído
 
 ---
 

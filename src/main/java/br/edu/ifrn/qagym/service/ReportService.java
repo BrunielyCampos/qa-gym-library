@@ -13,8 +13,14 @@ public class ReportService {
     }
 
     public int countAvailableBooks(List<Book> books) {
-        // TODO: implementar contagem de livros disponíveis
-        return 0;
+        
+        if (books == null || books.isEmpty()) {
+            return 0;
+        }
+
+        return (int) books.stream()
+                          .filter(Book::isAvailable)
+                          .count();
     }
 
     public int countUnavailableBooks(List<Book> books) {

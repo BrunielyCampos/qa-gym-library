@@ -15,6 +15,9 @@ public class BookValidator {
             return false;
         }
         // TODO: validar autor vazio
+        if (book.getAuthor() == null || book.getAuthor().isBlank()) {
+            return false;
+        }
         // TODO: validar ano de publicação inválido (ex: ano futuro ou negativo)
         return true;
     }

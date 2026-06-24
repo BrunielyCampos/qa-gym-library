@@ -43,8 +43,10 @@ public class Book {
     }
 
     public boolean isClassic() {
-        // TODO: implementar verificação de livro clássico (ex: publicado há mais de 50 anos)
-        return false;
+
+        int currentYear = LocalDate.now().getYear();
+        return (currentYear - this.publicationYear) >= 50;
+
     }
 
     @Override
