@@ -14,6 +14,9 @@ public class LibraryService {
     private final List<User> users = new ArrayList<>();
 
     public void addBook(Book book) {
+        if (isBookRegistered(book.getIsbn())){
+            throw new IllegalArgumentException("Livro já cadastrado");
+        }
         books.add(book);
     }
 
@@ -48,9 +51,20 @@ public class LibraryService {
         return result;
     }
 
-    public List<Book> findBooksByAuthor(String author) {
-        // TODO: implementar busca por autor
-        return List.of();
+    public List<Book> findBooksByAuthor(String author){
+        if (author == null) {
+            return List.of();
+        }
+
+        List<Book> result = new ArrayList<>();
+
+        for (Book book : books) {
+            if (book.getAuthor().equalsIgnoreCase(author)) {
+                result.add(book);
+            }
+        }
+
+        return result;
     }
 
     public int countBooks() {
@@ -58,9 +72,15 @@ public class LibraryService {
         return 0;
     }
 
-    public int countAvailableBooks() {
-        // TODO: implementar contagem de livros disponíveis
-        return 0;
+  public int countAvailableBooks() {
+       
+        if (books.isEmpty()) {
+            return 0;
+        }
+
+        return (int) books.stream()
+                          .filter(Book::isAvailable)
+                          .count();
     }
 
     public int countUnavailableBooks() {
@@ -69,13 +89,21 @@ public class LibraryService {
     }
 
     public List<Book> sortBooksByTitle() {
-        // TODO: implementar ordenação por título
-        return List.of();
+        List<Book> sorted = new ArrayList<>(books);
+        sorted.sort(Comparator.comparing(Book::getTitle));
+        return sorted;
     }
 
     public List<Book> sortBooksByYear() {
         // TODO: implementar ordenação por ano
         return List.of();
+    }
+    public boolean isBookRegistered(String isbn){
+        
+        if (findBookByIsbn(isbn) != null){
+            return true;
+        }
+        return false;
     }
 
     public List<Book> sortBooksByAuthor() {
