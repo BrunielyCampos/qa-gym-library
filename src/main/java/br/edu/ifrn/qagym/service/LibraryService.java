@@ -4,6 +4,8 @@ import br.edu.ifrn.qagym.model.Book;
 import br.edu.ifrn.qagym.model.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class LibraryService {
@@ -74,6 +76,14 @@ public class LibraryService {
     public List<Book> sortBooksByYear() {
         // TODO: implementar ordenação por ano
         return List.of();
+    }
+
+    public List<Book> sortBooksByAuthor() {
+        List <Book> sortAuthor = new ArrayList<>(books);
+
+        sortAuthor.sort(Comparator.comparing(Book::getAuthor));
+
+        return sortAuthor;
     }
 
     public List<Book> getBooks(String type) {
